@@ -2,8 +2,13 @@ import React from 'react'
 
 function AboutPage() {
   return (
-    <div>
-      <h1>About page</h1>
+    <div className='h-screen w-full overflow-hidden mt-16'>
+      <iframe 
+      src="https://anilpan.netlify.app/" 
+      frameborder="0"
+      className='w-full h-full'
+      // style={{ overflow: 'hidden' }}
+      ></iframe>
     </div>
   )
 }

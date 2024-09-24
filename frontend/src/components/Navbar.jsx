@@ -30,7 +30,7 @@ function Navbar() {
         },
         {
             name:"Signup",
-            navigate:"/register",
+            navigate:"/signup",
             status:!userStatus,
         },
         {
@@ -46,16 +46,16 @@ function Navbar() {
     ]
   return (
 
-    <div className='text-white w-full z-10 bg-colorLevel1 h-24 flex justify-around items-center  mx-auto fixed top-0 px-2'>
+    <div className='text-white w-full z-10 bg-colorLevel1 h-20 flex justify-between items-center  mx-auto fixed top-0 px-24'>
         <h1 className='w-auto  text-colorLevel4 text-3xl font-bold cursor-pointer'
         onClick={()=>navigate(navItems.navigate)}
         >FairShare</h1>
 
 
-        <div className='w-full mx-4 max-w-[40rem] h-10 border-2 rounded-r-xl flex'>
+        {/* <div className='w-full mx-4 max-w-[40rem] h-10 border-2 rounded-r-xl flex'>
             <input type="text" placeholder='Search' className='items-center flex w-[90%] h-full px-4 bg-colorLevel1 border-none'/>
             <CiSearch size={30} className='flex mx-auto my-auto'/>
-        </div>
+        </div> */}
         <ul className='hidden md:flex'>
 
             { navItems.map((item)=>
