@@ -1,29 +1,11 @@
-// import express from 'express';
 
-// const app =express();
-
-// app.get('/' , (req,res)=>{
-//     res.send("Server is running at PORT 8000!");
-// })
-
-// app.get('/anil' , (req,res)=>{
-//     res.send("This is Anil")
-// })
-
-// app.listen(8000, ()=>{
-//     console.log("Server running at http://localhost:8000")
-// })
 
 
 import connectDb from "./db/dbConnection.js";
 import { app } from "./app.js";
 import dotenv from "dotenv"
 
-dotenv.config(
-    {
-        path: "./.env"
-    }
-)
+dotenv.config()
 
 
 connectDb().then( ()=>{
