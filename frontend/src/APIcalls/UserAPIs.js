@@ -101,7 +101,7 @@ export class UserAPIs {
             }
 
             // API call using axios
-            const response = await axios.post(`${baseURL}/user/register`,
+            const response = await axios.post(`${baseURL}/api/v1/user/register`,
                 formData,
                 {
                     withCredentials: true
@@ -126,7 +126,7 @@ export class UserAPIs {
     async login(userData) {
         try {
             console.log("user data for login api call:",userData)
-            const response = await axios.post(`${baseURL}/user/login`,
+            const response = await axios.post(`${baseURL}/api/v1/user/login`,
                 {
                     mobileNo: userData.mobileNo,
                     password: userData.password
@@ -144,7 +144,7 @@ export class UserAPIs {
 
     async getCurrentUser() {
         try {
-            const response = await axios.get(`${baseURL}/user/getCurrentUser`,
+            const response = await axios.get(`${baseURL}/api/v1/user/getCurrentUser`,
                 {
                     withCredentials: true
                 }
