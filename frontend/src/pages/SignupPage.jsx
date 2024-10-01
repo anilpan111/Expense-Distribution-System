@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import {useForm} from 'react-hook-form'
 import { useNavigate } from "react-router-dom";
+import userAPI from "../APIcalls/UserAPIs";
 
 function SignupPage() {
   const [loading,setLoading] = useState(false)
@@ -10,7 +11,18 @@ function SignupPage() {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
 
-  const registerUser = ()=>{};
+  const registerUser = async (userData)=>{
+    // console.log("User data",userData)
+    try {
+      const responseData = await userAPI.signUp(userData);
+      if(responseData){
+        const currentUser = await userAPI.getCurrentUser();
+        // console.log("Registered User:",currentUser);
+      }
+    } catch (error) {
+      
+    }
+  };
 
   return (
     <>
@@ -29,7 +41,7 @@ function SignupPage() {
           <div className="fixed inset-0 bg-colorLevel1 bg-opacity-75 flex items-center justify-center z-10">
             <div className="bg-colorLevel2 p-8 rounded-xl shadow-2xl text-center">
               <h1 className="text-5xl font-bold text-colorLevel3">
-                Welcome again <span className="text-colorLevel4">{user}</span> !
+                Create your account <span className="text-colorLevel4">{user}</span> !
               </h1>
 
               <button
@@ -72,10 +84,10 @@ function SignupPage() {
           
           <input
             type="text"
-            placeholder="Username"
+            placeholder="Mobile Number"
             className="w-full border-b-2 bg-inherit pl-2 text-white font-light"
-            id="username"
-            {...register("userName", {
+            id="mobileNo"
+            {...register("mobileNo", {
               required: true,
             })}
           />
@@ -105,6 +117,18 @@ function SignupPage() {
             id="password"
             placeholder="Password"
             {...register("password", {
+              required: true,
+            })}
+          />
+        </div>
+        <div className="w-full mt-8">
+         
+          <input
+            type="password"
+            className="w-full border-b-2 bg-inherit pl-2 text-white font-light"
+            id="reEnteredPassword"
+            placeholder="Re enter Password"
+            {...register("reEnteredPassword", {
               required: true,
             })}
           />

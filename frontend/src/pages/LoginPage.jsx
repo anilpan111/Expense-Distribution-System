@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import {useForm} from 'react-hook-form'
 import { useNavigate } from "react-router-dom";
+import userAPI from "../APIcalls/UserAPIs";
 
 function LoginPage() {
   const [loading,setLoading] = useState(false)
@@ -11,7 +12,19 @@ function LoginPage() {
   const navigate = useNavigate();
 
 
-  const loginUser = ()=>{}
+  const loginUser = async (userData)=>{
+    try {
+      // console.log("User data for login:",userData)
+      const loginData = await userAPI.login(userData);
+
+      if(loginData){
+        const currentUser = await userAPI.getCurrentUser();
+        console.log("Logged in user:",currentUser)
+      }
+    } catch (error) {
+      console.error("ERR:",error)
+    }
+  }
 
 
   return (
@@ -63,9 +76,9 @@ function LoginPage() {
             <input
               type="text"
               className="w-full border-b-2 bg-inherit pl-1 text-white font-light"
-              id="email"
+              id="mobileNo"
               placeholder="Email or Username"
-              {...register("email", {
+              {...register("mobileNo", {
                 required: true,
               })}
             />
