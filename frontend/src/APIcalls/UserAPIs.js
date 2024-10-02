@@ -125,7 +125,7 @@ export class UserAPIs {
 
     async login(userData) {
         try {
-            console.log("user data for login api call:",userData)
+            // console.log("user data for login api call:",userData)
             const response = await axios.post(`${baseURL}/api/v1/user/login`,
                 {
                     mobileNo: userData.mobileNo,

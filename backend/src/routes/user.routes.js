@@ -22,9 +22,9 @@ router.route("/login").post(loginUser);
 
 router.route("/getCurrentUser").get(verifyJWT,getCurrentUser)
 
-router.route("/test").get((req, res) => {
-    console.log("hello from anil");
-    res.send("Hello from Anil's test route");
-});
+// router.route("/test").get((req, res) => {
+//     console.log("hello from anil");
+//     res.send("Hello from Anil's test route");
+// });
 
 export default router
