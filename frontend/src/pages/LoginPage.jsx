@@ -7,22 +7,37 @@ import userAPI from "../APIcalls/UserAPIs";
 function LoginPage() {
   const [loading,setLoading] = useState(false)
   const [success,setSuccess] = useState(false)
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(false)
+  const [errorMessage,setErrorMessage] = useState("")
+  const [user,setUser]=useState("")
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
 
 
   const loginUser = async (userData)=>{
     try {
+      setSuccess(false)
+      setError(false)
+      setLoading(true)
       // console.log("User data for login:",userData)
       const loginData = await userAPI.login(userData);
 
       if(loginData){
         const currentUser = await userAPI.getCurrentUser();
         console.log("Logged in user:",currentUser)
+        if(currentUser){
+          console.log("CurrentUser:",currentUser.data.fullName)
+          setUser(currentUser.data.fullName)
+
+          setSuccess(true)
+
+        }
       }
     } catch (error) {
-      console.error("ERR:",error)
+      // console.error("ERR:",error)
+      setLoading(false)
+      setError(true)
+      setErrorMessage(error.response.data.message)
     }
   }
 

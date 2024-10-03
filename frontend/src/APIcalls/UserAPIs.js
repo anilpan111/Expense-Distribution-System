@@ -137,7 +137,7 @@ export class UserAPIs {
             );
             return response.data; // return the API response data
         } catch (error) {
-            console.error("Error while login API call:", error);
+            // console.error("Error while login API call:", error);
             throw error;
         }
     }

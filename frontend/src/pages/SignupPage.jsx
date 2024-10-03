@@ -6,21 +6,28 @@ import userAPI from "../APIcalls/UserAPIs";
 
 function SignupPage() {
   const [loading,setLoading] = useState(false)
-  const [success,setSuccess] = useState(false)
   const [error, setError] = useState(false);
+  const [errorMessage,setErrorMessage] = useState("")
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
 
   const registerUser = async (userData)=>{
     // console.log("User data",userData)
     try {
+      setError(false);
+      setLoading(true);
       const responseData = await userAPI.signUp(userData);
       if(responseData){
         const currentUser = await userAPI.getCurrentUser();
-        // console.log("Registered User:",currentUser);
+        console.log("Registered User:",currentUser);
+        navigate("/")
       }
+      setLoading(false)
     } catch (error) {
-      
+      setLoading(false);
+      setError(true);
+      setErrorMessage(error.response.data.message)
+      console.error("ERR:",error)
     }
   };
 
@@ -30,36 +37,16 @@ function SignupPage() {
         <img src="https://images.pexels.com/photos/531756/pexels-photo-531756.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Background" className="object-cover fixed top-0 z-0 h-full w-full" />
         <div className="text-colorLevel3 bg-colorLevel2 bg-opacity-80 md:w-[30%] rounded-xl md:max-w-[45%] h-auto md:h-auto mt-32 md:mx-auto mx-8 mb-10 py-4 px-8 shadow-2xl z-10 relative ">
         {loading && (
-          <div className="fixed inset-0 bg-colorLevel2 bg-opacity-75 flex items-center justify-center rounded-xl z-0">
-            <h1 className="text-5xl font-bold text-colorLevel3">
-              Logging in please wait...
-            </h1>
-          </div>
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center rounded-xl z-0">
+          <h1 className="text-5xl font-bold text-colorLevel3">Signing up...</h1>
+        </div>
         )}
 
-        {success && (
-          <div className="fixed inset-0 bg-colorLevel1 bg-opacity-75 flex items-center justify-center z-10">
-            <div className="bg-colorLevel2 p-8 rounded-xl shadow-2xl text-center">
-              <h1 className="text-5xl font-bold text-colorLevel3">
-                Create your account <span className="text-colorLevel4">{user}</span> !
-              </h1>
-
-              <button
-                className="mt-8 px-8 py-3 bg-colorLevel3 text-white rounded-lg"
-                onClick={() => {
-                  setSuccess(false);
-                  navigate("/");
-                }}
-              >
-                Go to Home page
-              </button>
-            </div>
-          </div>
-        )}
+        
 
         <div className="w-full h-14 justify-center flex">
           <h1 className="text-3xl font-bold font-myFont pt-6">
-            Welcome Back
+            Start with FairShare
           </h1>
         </div>
 
