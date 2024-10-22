@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {registerUser,loginUser, getCurrentUser} from '../controllers/user.controller.js'
+import {registerUser,loginUser, getCurrentUser, suggestUsers} from '../controllers/user.controller.js'
 import { upload } from "../middlewares/multer.middleware.js";
 import {verifyJWT} from "../middlewares/auth.middleware.js" 
 
@@ -20,11 +20,13 @@ router.route("/register").post(
     registerUser);
 router.route("/login").post(loginUser);
 
-router.route("/getCurrentUser").get(verifyJWT,getCurrentUser)
+router.route("/getCurrentUser").get(verifyJWT,getCurrentUser);
 
-// router.route("/test").get((req, res) => {
-//     console.log("hello from anil");
-//     res.send("Hello from Anil's test route");
-// });
+router.route("/suggestUsers").post(verifyJWT,suggestUsers)
+
+
+
+
+
 
 export default router

@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import {uploadOnCloudinary } from "../utils/cloudinary.js"
 import {User} from '../models/user.model.js'
 
+
 const generateTokens = async (userId)=>{
     try {
         const user = await User.findById(userId);
@@ -145,11 +146,23 @@ const loginUser = asyncHandler( async (req,res)=>{
 
     const loggedUser = await User.findById(user._id).select("-password -refreshToken")
 
+    //options for the deployment
+
+
+    // const options = {
+    //     httpOnly :true,
+    //     secure: true,
+    //     path:'/',
+    //     sameSite:'none'
+    // }
+
+    //options for the developement
+
     const options = {
-        httpOnly :true,
-        secure: true,
-        path:'/',
-        sameSite:'none'
+        httpOnly : true,
+        secure : false,
+        path : '/',
+        sameSite : 'lax'
     }
 
     return res
@@ -173,10 +186,42 @@ const getCurrentUser = asyncHandler(async(req,res)=>{
     )
 })
 
+//suggest existing users
+
+const suggestUsers = asyncHandler(async(req,res)=>{
+    const {name}  = req.body
+    // console.log("Name:",name)
+    if(name ===''){
+        throw new  ApiErrors(400,"Name is required")
+    }
+
+    const users = await User.find({
+        fullName: {
+            $regex: name,
+            $options: 'i'
+        }
+    })
+
+    if(!users){
+        throw new ApiErrors(400,"No users found")
+    }
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200,users,"Users with similar names")
+    )
+
+
+})
+
+
+
 
 export {
     registerUser,
     loginUser,
-    getCurrentUser
+    getCurrentUser,
+    suggestUsers,
 }
 

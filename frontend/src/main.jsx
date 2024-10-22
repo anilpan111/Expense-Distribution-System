@@ -1,43 +1,57 @@
-import { StrictMode } from 'react'
+import { StrictMode } from "react";
 // import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
-import ReactDom from 'react-dom/client'
+import App from "./App.jsx";
+import "./index.css";
+import ReactDom from "react-dom/client";
 
-import store from './store/configStore.js'
+import store from "./store/configStore.js";
 
+// import '@nextui-org/react/styles.css';
 
 //react router dom imports
-import { createBrowserRouter, createRoutesFromElements,Route,RouterProvider } from 'react-router-dom'
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
 
 //all pages import
-import HomePage from './pages/HomePage.jsx'
-import AboutPage from './pages/AboutPage.jsx'
-import ContactPage from './pages/ContactPage.jsx'
-import LoginPage from './pages/LoginPage.jsx'
-import ProfilePage from './pages/ProfilePage.jsx'
-import SignupPage from './pages/SignupPage.jsx'
+import HomePage from "./pages/HomePage.jsx";
+import AboutPage from "./pages/AboutPage.jsx";
+import ContactPage from "./pages/ContactPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
+import SignupPage from "./pages/SignupPage.jsx";
+import { NextUIProvider } from "@nextui-org/react";
+import Conversations from "./components/Conversations.jsx";
 
-import { Provider } from 'react-redux'
+import { Provider } from "react-redux";
+import ChatsPage from "./pages/ChatsPage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<App/>}>
-      <Route path='/' element={<HomePage/>}/>
-      <Route path='about' element={<AboutPage/>}/>
-      <Route path='contact' element={<ContactPage/>}/>
-      <Route path='login' element={<LoginPage/>}/>
-      <Route path='signup' element={<SignupPage/>}/>
-      <Route path='profile' element={<ProfilePage/>}/>
+    <Route path="/" element={<App />}>
+      <Route path="/" element={<HomePage />} />
+      <Route path="chats" element={<ChatsPage />} />
+      <Route path="about" element={<AboutPage />} />
+      <Route path="contact" element={<ContactPage />} />
+      <Route path="login" element={<LoginPage />} />
+      <Route path="signup" element={<SignupPage />} />
+      <Route path="profile" element={<ProfilePage />} />
+      <Route path="conversation" element={<Conversations />} />
     </Route>
   )
-)
+);
 
-
-ReactDom.createRoot(document.getElementById('root')).render(
+ReactDom.createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router}/>
+      <NextUIProvider>
+        <main className="dark text-foreground bg-background">
+          <RouterProvider router={router} />
+        </main>
+      </NextUIProvider>
     </Provider>
-  </StrictMode>,
-)
+  </StrictMode>
+);

@@ -1,31 +1,3 @@
-// import express from 'express';
-// import cors from 'cors'
-// import cookieParser from 'cookie-parser'
-
-// const app = express();
-
-// //configuring cors
-
-// app.use(cors({
-//     origin: process.env.CORS_ORIGIN,
-//     credentials:true
-// }))
-
-
-// app.use( express.json({limit:"16kb"}))
-// app.use(express.urlencoded( {extended: true, limit: "16kb"}))
-// app.use(cookieParser())
-
-
-
-// //Routes import
-// import userRouter from './routes/user.routes.js'
-
-// app.use("/api/v1/user",userRouter)
-
-// export {app};
-
-
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -52,8 +24,13 @@ app.use(cookieParser());
 
 // Routes import
 import userRouter from './routes/user.routes.js';
-
+import singleChatsRouter from './routes/singleChats.routes.js'
+import groupChats from './routes/groupChat.routes.js'
+import conversation from './routes/conversation.route.js'
 // Routes
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/singleChats",singleChatsRouter);
+app.use("/api/v1/groupChats",groupChats)
+app.use("/api/v1/conversation",conversation)
 
 export { app };

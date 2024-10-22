@@ -12,10 +12,14 @@ const eventSlice =createSlice({
         taskData(state,action){
             state.status= true;
             state.userEvents = action.payload;
+        },
+        loadChats(state,action){
+            state.status = true,
+            state.userEvents = action.payload;
         }
     }
 })
 
 
-export const {taskData} =eventSlice.actions
+export const {taskData,loadChats} =eventSlice.actions
 export default eventSlice.reducer
