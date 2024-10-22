@@ -20,14 +20,14 @@ function Contacts() {
           // console.log("Conversations:", allContacts.data);
         }
       } catch (error) {
-        console.log("ERR:", error);
+        console.log("ERR:", error); 
       }
     })();
   }, []);
 
   // console.log("Existing users:", existingUsers);
   return (
-    <div className="h-full overflow-y-auto w-full md:w-[35%] bg-colorLevel1 flex md:hidden flex-col overflow-x-hidden">
+    <div className="h-full overflow-y-auto w-full md:w-[35%] bg-colorLevel1 flex flex-col overflow-x-hidden">
       <div className="flex items-center   bg-colorLevel1 w-full justify-around  pl-4 pr-4  top-0 z-10 h-18 border-b-2">
         <h1 className="items-center flex font-myFont text-2xl font-bold py-5 text-colorLevel3">
           Chats
