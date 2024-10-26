@@ -193,11 +193,6 @@
 
 // export default ExpenseDistributionPage;
 
-
-
-
-
-
 import React, { useEffect, useState } from "react";
 import { Avatar, DateRangePicker, Button, Progress } from "@nextui-org/react";
 import { parseDate } from "@internationalized/date";
@@ -276,10 +271,15 @@ function ExpenseDistributionPage() {
     payers.forEach((payer) => {
       while (payer.balance < 0 && receivers.length > 0) {
         const receiver = receivers[0];
-        const amountToSettle = Math.min(receiver.balance, Math.abs(payer.balance));
+        const amountToSettle = Math.min(
+          receiver.balance,
+          Math.abs(payer.balance)
+        );
 
         tips.push(
-          `${payer.name} should pay ${receiver.name} Rs ${amountToSettle.toFixed(2)}`
+          `${payer.name} will pay ${
+            receiver.name
+          } Rs ${amountToSettle.toFixed(2)}`
         );
 
         payer.balance += amountToSettle;
@@ -294,7 +294,7 @@ function ExpenseDistributionPage() {
 
   return (
     <div className="bg-colorLevel1 h-screen w-full flex flex-col md:flex-row">
-      <div className="w-full md:w-[35%] h-full flex flex-col ">
+      <div className="w-full md:w-[35%] h-full flex flex-col overflow-y-hidden ">
         <div className="flex flex-col mx-auto mt-6 md:px-8 px-4">
           <Avatar
             src={chatDetails.chatIcon}
@@ -350,7 +350,7 @@ function ExpenseDistributionPage() {
         </div>
       </div>
 
-      <div className="w-full md:w-[65%] h-full bg-colorLevel2 pb-8 ">
+      <div className="w-full md:w-[65%] h-full bg-colorLevel2 pb-8 overflow-y-auto">
         <h1 className="font-myFont text-3xl font-bold text-center mt-4 border-b-1">
           Distribution of Expense
         </h1>
@@ -368,7 +368,10 @@ function ExpenseDistributionPage() {
               if (!payment) return null;
 
               return (
-                <li className="bg-colorLevel4 rounded-xl md:px-8 px-4 py-3 mb-6" key={member._id}>
+                <li
+                  className="bg-colorLevel4 rounded-xl md:px-8 px-4 py-3 mb-6"
+                  key={member._id}
+                >
                   <div className="flex items-center gap-4">
                     <Avatar isBordered radius="lg" src={member.avatar} />
                     <h3 className="text-lg font-bold">{member.fullName}</h3>
@@ -391,19 +394,28 @@ function ExpenseDistributionPage() {
           <h1 className="text-2xl font-bold px-8 border-b-1 mt-6 text-black">
             Expense Sharing Tips
           </h1>
-          <div className="px-8 mt-4 text-black">
-            {expenseTips.length > 0 ? (
-              expenseTips.map((tip, index) => (
-                <p key={index} className="font-myFont text-lg mb-2">{tip}</p>
-              ))
-            ) : (
-              <p className="font-myFont text-lg">All members have equal expenditures.</p>
-            )}
+          
+
+          <div className="mt-4 w-full  bg-colorLevel1 border-2 rounded-2xl overflow-y-auto">
+            <ul className="p-3 grid md:grid-cols-3 grid-cols-2 gap-3 my-4 mx-2">
+              {expenseTips.length > 0 ? (
+                expenseTips.map((tip, index) => (
+
+                  <li className="md:w-52 md:h-52 h-40 w-40 bg-green-600 rounded-full border-3 border-colorLevel5 text-center content-center font-bold cursor-pointer hover:md:w-80 hover:md:h-80  hover:z-10 ease-in-out duration-500 hover:border-8"
+                  key={index}
+                  >
+                    {tip}
+                  </li>
+                ))
+              ) : (
+                <p className="font-myFont text-lg">
+                  All members have equal expenditures.
+                </p>
+              )}
+            </ul>
           </div>
 
-          <div>
-            <RandomCircles />
-          </div>
+          
         </div>
       </div>
     </div>
