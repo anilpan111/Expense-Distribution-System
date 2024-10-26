@@ -6,9 +6,9 @@ import { FaMapLocationDot } from "react-icons/fa6";
 import { MdOutlineDescription } from "react-icons/md";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import singleChatAPIs from "../APIcalls/singleChatAPIs";
-
+import { chatHistory } from "../store/Slices/chatSlice";
 import {
   DatePicker,
   Button,
@@ -26,6 +26,7 @@ import {
 } from "@nextui-org/react";
 import conversationAPIs from "../APIcalls/conversations";
 import groupChatAPIs from "../APIcalls/groupChatAPIs";
+import { useNavigate } from "react-router-dom";
 
 function Conversations() {
   const [simpleMessage, setSimpleMessage] = useState("");
@@ -35,6 +36,7 @@ function Conversations() {
   const [place, setPlace] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [allChats, setAllChats] = useState(null);
+  const dispatch = useDispatch()
   const items = [
     {
       key: "contact",
@@ -62,7 +64,9 @@ function Conversations() {
   const chatData = useSelector((state) => state.event.userEvents);
   const loggedUser = useSelector((state) => state.auth.userData);
 
-  // console.log(chatData);
+  const navigate = useNavigate();
+  // console.log("Chat data:",chatData)
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -73,7 +77,7 @@ function Conversations() {
       if (chatData.dataType === "navbar") {
         return [chatData._id];
       } else {
-        const idArray = chatData.members.filter(
+        const idArray = chatData?.members?.filter(
           (memberId) => memberId !== loggedUser._id
         );
         return idArray;
@@ -127,7 +131,7 @@ function Conversations() {
       if (chatData.dataType === "navbar") {
         return [chatData._id];
       } else {
-        const idArray = chatData.members.filter(
+        const idArray = chatData?.members?.filter(
           (memberId) => memberId !== loggedUser._id
         );
         return idArray;
@@ -198,7 +202,7 @@ function Conversations() {
           if (chatData.dataType === "navbar") {
             return [chatData._id];
           } else {
-            const idArray = chatData.members.filter(
+            const idArray = chatData?.members?.filter(
               (memberId) => memberId !== loggedUser._id
             );
             return idArray;
@@ -233,6 +237,8 @@ function Conversations() {
   }, [chatData, loggedUser._id]);
 
   // console.log("Chat data:",allChats)
+  // console.log("chat data members",chatData.members);
+
 
   return (
     <div className="h-full md:flex md:w-[65%] hidden w-full bg-colorLevel3  flex-col overflow-y-hidden">
@@ -252,6 +258,10 @@ function Conversations() {
           <Button
             variant="bordered"
             className="bg-colorLevel5 mr-4 font-myFont font-bold  py-4 h-8 text-md rounded-md border-2 my-auto px-1"
+            onClick={()=>{
+              dispatch(chatHistory({chatData,allChats}))
+              navigate('/expenseDistribution')
+            }}
           >
             View distribution
           </Button>

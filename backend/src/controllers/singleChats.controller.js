@@ -111,7 +111,7 @@ const sendExpenseMessage = asyncHandler( async(req,res)=>{
             expenseDate,
             members,
             chatName,
-            sender: sender._id
+            sender
         }
     )
 

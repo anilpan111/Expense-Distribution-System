@@ -5,22 +5,27 @@ import { MdGroups2 } from "react-icons/md";
 import { IoPerson } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { loadChats } from "../store/Slices/eventSlice";
+import ContactsSkeleton from "./ContactsSkeleton";
 
 function Contacts() {
   const [conversationHistory, setConversationHistory] = useState([]);
+  const [loadContacts,setLoadContacts]=useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
       try {
+        setLoadContacts(true)
         const allContacts = await conversationAPIs.getAllConversations();
 
         if (allContacts) {
           setConversationHistory(allContacts.data);
+          setLoadContacts(false)
           // console.log("Conversations:", allContacts.data);
         }
       } catch (error) {
         console.log("ERR:", error); 
+        setLoadContacts(false)
       }
     })();
   }, []);
@@ -37,6 +42,9 @@ function Contacts() {
 
       <div className="w-full  text-colorLevel3 pb-40">
         <ul className="mx-3">
+
+        {loadContacts && <ContactsSkeleton/>}
+
           {conversationHistory.map((conversation) => {
             const latestUpdate = new Date(conversation.updatedAt);
 
@@ -47,6 +55,7 @@ function Contacts() {
               minute: "2-digit",
               hour12: true,
             });
+
 
             return conversation.isGroup ? (
               <li

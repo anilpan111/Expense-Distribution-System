@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -13,14 +13,26 @@ import {
 import { AcmeLogo } from "./AcmeLogo.jsx";
 import { useNavigate } from "react-router-dom";
 
+import {io} from "socket.io-client"
+
 function NextuiNavbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const navigate = useNavigate();
 
+  useEffect(()=>{
+    const socket = io("http://localhost:8000",{
+      withCredentials: true
+    })
+
+    socket.on("connect",()=>{
+      console.log("user connected:",socket.id)
+    })
+  },[])
+
   
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} className="text-white bg-colorLevel1">
+    <Navbar onMenuOpenChange={setIsMenuOpen} className="text-white bg-colorLevel5">
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -51,7 +63,8 @@ function NextuiNavbar() {
             <Link
               color="foreground"
               className="w-full"
-              onClick={()=>navigate("signUp")}
+              // onClick={()=>navigate("/signUp")}
+              onClick={()=>navigate("/expenseDistribution")}
               size="lg"
             >
               Sign up

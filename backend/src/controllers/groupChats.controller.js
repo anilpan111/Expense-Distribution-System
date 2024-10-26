@@ -7,6 +7,8 @@ import { ExpenseMessage } from "../models/expenseMessage.model.js";
 import { Conversation } from "../models/conversation.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import mongoose from "mongoose";
+
+
 const createGroup = asyncHandler(async(req,res)=>{
     const {groupName,description,members} = req.body
 
@@ -143,6 +145,8 @@ const sendExpenseMessage = asyncHandler(async(req,res)=>{
 
     const sender = req.user;
 
+    // console.log("Sender of miney:",sender)
+
     if(!sender){
         throw new ApiErrors(400,"Sender not fetched")
     }
@@ -157,7 +161,7 @@ const sendExpenseMessage = asyncHandler(async(req,res)=>{
             expenseDate,
             members: receiversIds,
             chatName,
-            sender: sender._id
+            sender
         }
     )
 

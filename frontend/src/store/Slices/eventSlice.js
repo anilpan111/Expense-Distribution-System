@@ -16,9 +16,12 @@ const eventSlice =createSlice({
         loadChats(state,action){
             state.status = true,
             state.userEvents = action.payload;
-        }
+        },
+        
     }
 })
+
+
 
 
 export const {taskData,loadChats} =eventSlice.actions
