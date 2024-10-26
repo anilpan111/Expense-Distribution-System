@@ -15,10 +15,7 @@ const getAllConversations = asyncHandler(async (req, res) => {
   const conversations = await Conversation.find({
     members: currentUser._id,
   })
-    // .populate({
-    //     path: 'members', // Populate the 'members' array with User documents
-    //     select: 'name email avatar', // Choose the fields you want to include in the populated members (e.g., name, email, avatar)
-    //   })
+    
     .select("-simpleMessages -expenseMessages")
     .sort({ updatedAt: -1 });
 
@@ -26,7 +23,6 @@ const getAllConversations = asyncHandler(async (req, res) => {
     throw new ApiErrors(400, "No conversations yet");
   }
 
-  // console.log("All members:",conversations)
   return res
     .status(200)
     .json(
@@ -37,9 +33,7 @@ const getAllConversations = asyncHandler(async (req, res) => {
 const getAllChats = asyncHandler(async (req, res) => {
   const { members, chatName } = req.body;
 
-  // console.log("Members and chatname:",members,chatName)
-
-  // Validate the presence of members and chatName
+  
   if (!members || !chatName) {
     throw new ApiErrors(400, "User not fetched");
   }
@@ -56,21 +50,8 @@ const getAllChats = asyncHandler(async (req, res) => {
   // Add the logged-in user to the membersIds
   membersIds.push(loggedMember._id);
 
-  // console.log("MembersIds:",membersIds)
 
-  // Find the conversation that matches the chatName and members
-  // let conversation = await Conversation.findOne({
-  //     chatName,
-  //     members: { $all: membersIds },
-  // })
-  //     .populate("simpleMessages")
-  //     .populate("expenseMessages");
-
-  // If no conversation is found, return an error
-  // console.log("All chats:",conversation)
-  // if (!conversation) {
-  //     throw new ApiErrors(400, "No chats found");
-  // }
+ 
 
   let conversation = await Conversation.findOne({
     chatName,
@@ -126,7 +107,6 @@ const getAllChats = asyncHandler(async (req, res) => {
 const getAllMembers = asyncHandler(async (req, res) => {
   const { members } = req.body;
 
-  // console.log("Mebers contorller:",members)
 
   // Convert each member string to a MongoDB ObjectId
   const membersObjects = members.map(
@@ -134,7 +114,7 @@ const getAllMembers = asyncHandler(async (req, res) => {
   );
 
   try {
-    // Fetch details of all members using Promise.all()
+    // Fetch details of all members 
     const allMembersDetails = await Promise.all(
       membersObjects.map((member) => {
         return User.findOne({ _id: member }).select(

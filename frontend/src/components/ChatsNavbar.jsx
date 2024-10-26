@@ -4,8 +4,6 @@ import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem,
-  Link,
   Input,
   DropdownItem,
   DropdownTrigger,
@@ -21,7 +19,6 @@ import { UserAPIs } from "../APIcalls/UserAPIs";
 import { FaFaceSadTear } from "react-icons/fa6";
 import { useDispatch ,useSelector} from "react-redux";
 import { loadChats } from "../store/Slices/eventSlice";
-import CreateGroup from "./CreateGroup";
 
 export default function ChatsNavbar() {
   const [name, setName] = useState("");
@@ -39,7 +36,6 @@ export default function ChatsNavbar() {
       if (name) {
         try {
           const response = await userAPIInstance.suggestUser({ name });
-          // console.log("Suggested users:", response.data);
           setExistingUsers(response.data);
           // return response.data;
         } catch (error) {
@@ -52,7 +48,6 @@ export default function ChatsNavbar() {
 
   const handleSearch = (e) => {
     const userInput = e.target.value;
-    // console.log("input value:",userInput)
 
     setName(userInput);
     debounceSearch(userInput);
@@ -65,23 +60,7 @@ export default function ChatsNavbar() {
           <AcmeLogo />
           <p className="hidden sm:block font-bold text-inherit">FairShare</p>
         </NavbarBrand>
-        {/* <NavbarContent className="hidden sm:flex gap-3">
-          <NavbarItem>
-            <Link color="foreground" href="#">
-              Features
-            </Link>
-          </NavbarItem>
-          <NavbarItem isActive>
-            <Link href="#" aria-current="page" color="secondary">
-              Customers
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link color="foreground" href="#">
-              Integrations
-            </Link>
-          </NavbarItem>
-        </NavbarContent> */}
+        
       </NavbarContent>
 
       <NavbarContent as="div" className="items-center" justify="end">

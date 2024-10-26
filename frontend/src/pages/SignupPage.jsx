@@ -45,13 +45,7 @@ function SignupPage() {
           className="object-cover fixed top-0 z-0 h-full w-full"
         />
         <div className="text-colorLevel3 bg-colorLevel2 bg-opacity-80 md:w-[30%] rounded-xl md:max-w-[45%] h-auto md:h-auto mt-32 md:mx-auto mx-8 mb-10 py-4 px-8 shadow-2xl z-10 relative ">
-          {/* {loading && (
-            <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center rounded-xl z-0">
-              <h1 className="text-5xl font-bold text-colorLevel3">
-                Signing up...
-              </h1>
-            </div>
-          )} */}
+          
 
           <div className="w-full h-14 justify-center flex">
             <h1 className="text-3xl font-bold font-myFont pt-6">

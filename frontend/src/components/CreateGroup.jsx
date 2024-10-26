@@ -11,7 +11,6 @@ import {
   Badge,
 } from "@nextui-org/react";
 import { HiUserGroup } from "react-icons/hi";
-import { IoMdPersonAdd } from "react-icons/io";
 import { FaFaceSadTear } from "react-icons/fa6";
 import { UserAPIs } from "../APIcalls/UserAPIs";
 import _ from "lodash";
@@ -49,9 +48,6 @@ function CreateGroup() {
     setName("");
     setGroupMembers([...groupMembers, user]);
   };
-  // console.log(groupMembers ? "true": "false")
-
-  // console.log("Group members:",groupMembers)
 
   const handleImageChange = (e) => {
     console.log("Image changed");
@@ -63,23 +59,19 @@ function CreateGroup() {
   };
 
   const handleOpen = (backdrop) => {
-    //   setBackdrop(backdrop)
     onOpen();
   };
 
   const handleSearch = (e) => {
     const userInput = e.target.value;
-    // console.log("input value:",userInput)
 
     setName(userInput);
     debounceSearch(userInput);
   };
 
   const createGroup = async (chatData) => {
-    // console.log("chat data:",{...chatData , members: groupMembers})
     try {
       const groupMembersIds = groupMembers.map((member)=>member._id);
-      // console.log("Group members ids:",groupMembersIds)
       const response =await groupChatAPIs.createGroup({...chatData,groupMembersIds})
       if(response){
         console.log("Created group:",response)
@@ -117,9 +109,7 @@ function CreateGroup() {
                 </ModalHeader>
                 <ModalBody>
                   <div className="w-full pb-4 flex justify-center">
-                    {/* Circular container for the image */}
                     <label className="relative">
-                      {/* Show either the selected image or a default circle */}
                       {selectedImage ? (
                         <Avatar
                           src={selectedImage}
@@ -132,7 +122,6 @@ function CreateGroup() {
                           </span>
                         </div>
                       )}
-                      {/* Hidden file input */}
                       <input
                         type="file"
                         id="chatIcon"

@@ -4,7 +4,6 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { MdOutlineDescription } from "react-icons/md";
-import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import { useSelector,useDispatch } from "react-redux";
 import singleChatAPIs from "../APIcalls/singleChatAPIs";
@@ -65,7 +64,6 @@ function Conversations() {
   const loggedUser = useSelector((state) => state.auth.userData);
 
   const navigate = useNavigate();
-  // console.log("Chat data:",chatData)
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -95,7 +93,6 @@ function Conversations() {
           : chatData.chatName,
     };
 
-    // console.log("Receiver:",chatDetails)
 
     try {
       if (chatData.dataType === "navbar") {
@@ -115,7 +112,6 @@ function Conversations() {
         } else {
           const response = await singleChatAPIs.sendSimpleChat(chatDetails);
           if (response) {
-            // console.log("Response for single chat:", response);
             setSimpleMessage("");
           }
         }
@@ -223,7 +219,6 @@ function Conversations() {
           });
 
           if (response) {
-            // console.log("Response from chatss:", response);
             setAllChats(response.data);
           }
         } catch (error) {
@@ -236,8 +231,7 @@ function Conversations() {
     }
   }, [chatData, loggedUser._id]);
 
-  // console.log("Chat data:",allChats)
-  // console.log("chat data members",chatData.members);
+  
 
 
   return (

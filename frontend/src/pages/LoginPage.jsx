@@ -24,14 +24,11 @@ function LoginPage() {
       setSuccess(false);
       setError(false);
       setLoading(true);
-      // console.log("User data for login:",userData)
       const loginData = await userAPI.login(userData);
 
       if (loginData) {
         const currentUser = await userAPI.getCurrentUser();
-        // console.log("Logged in user:", currentUser);
         if (currentUser) {
-          // console.log("CurrentUser:", currentUser.data);
           dispatch(login(currentUser.data))
           setUser(currentUser.data.fullName);
           setLoading(false);

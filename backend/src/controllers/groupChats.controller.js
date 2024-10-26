@@ -14,8 +14,7 @@ const createGroup = asyncHandler(async(req,res)=>{
 
     const currentUser = req.user
 
-    // console.log(groupName,description,members)
-    // console.log("members:",members[0])
+ 
 
     if(
         [groupName,description].some((field)=>field.trim()==="")
@@ -30,7 +29,6 @@ const createGroup = asyncHandler(async(req,res)=>{
     const membersIds = members.map((member)=> new mongoose.Types.ObjectId(member))
     membersIds.push(currentUser._id);
 
-    // console.log('chat icon local path:',membersIds)
 
     const chatIconLocalPath = req.files?.chatIcon?.[0]?.path;
 
@@ -41,7 +39,6 @@ const createGroup = asyncHandler(async(req,res)=>{
     
     const chatIcon = await uploadOnCloudinary(chatIconLocalPath);
 
-    // console.log("Chat icon url:",chatIcon)
     if(!chatIcon){
         throw new ApiErrors(400,"Failed to upload chat icon")
     }
@@ -57,7 +54,6 @@ const createGroup = asyncHandler(async(req,res)=>{
         }
     )
 
-    // console.log("group:",newGroup)
 
     if(!newGroup){
         throw new ApiErrors(400,"Unable to create group")
@@ -76,7 +72,6 @@ const sendSimpleMessage = asyncHandler( async(req,res)=>{
         throw new ApiErrors(400,"Provided data are insufficient")
     }
 
-    // console.log("Receivers array:",receiverArray)
     const sender=req.user;
 
     if(!sender){
@@ -86,7 +81,6 @@ const sendSimpleMessage = asyncHandler( async(req,res)=>{
  
     receiversIds.push(sender._id);
 
-    // console.log("Recievers of gc:",receiversIds)
 
     const simpleMessage = await SimpleMessage.create(
         {
@@ -145,7 +139,6 @@ const sendExpenseMessage = asyncHandler(async(req,res)=>{
 
     const sender = req.user;
 
-    // console.log("Sender of miney:",sender)
 
     if(!sender){
         throw new ApiErrors(400,"Sender not fetched")

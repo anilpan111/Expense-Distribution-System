@@ -63,7 +63,6 @@ function NextuiNavbar() {
             <Link
               color="foreground"
               className="w-full"
-              // onClick={()=>navigate("/signUp")}
               onClick={()=>navigate("/expenseDistribution")}
               size="lg"
             >

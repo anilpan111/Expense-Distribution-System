@@ -9,7 +9,6 @@ import { Conversation } from "../models/conversation.model.js";
 const sendSimpleMessage = asyncHandler(async (req,res)=>{
     const {message,receiverArray,chatName} = req.body;
 
-    // console.log("Receiver array:",receiverArray,message,chatName)
 
 
     if(!message || !receiverArray || !chatName){
@@ -39,7 +38,6 @@ const sendSimpleMessage = asyncHandler(async (req,res)=>{
     })
 
 
-    // console.log("New Message:",simpleMessage)
 
     try {
         let conversation = await Conversation.findOne(
@@ -49,7 +47,6 @@ const sendSimpleMessage = asyncHandler(async (req,res)=>{
             }
         )    
     
-        // console.log("New Message:",conversation)
     
     
         if(conversation){

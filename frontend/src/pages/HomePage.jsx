@@ -1,8 +1,5 @@
 import React from "react";
-import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-import { Avatar } from "@nextui-org/react";
-import LoginPopup from "../components/LoginPopup";
 import NextuiNavbar from "../components/NextuiNavbar";
 import {ReactTyped} from 'react-typed'
 
@@ -14,7 +11,6 @@ function HomePage() {
 
   return (
     <>
-      {/* <Navbar/> */}
       <NextuiNavbar  className='border-b-2 border-white'/>
 
       <div className="grid grid-cols-1 md:grid-cols-2 h-screen w-full md:px-10 bg-colorLevel1">
