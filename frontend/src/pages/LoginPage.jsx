@@ -91,7 +91,7 @@ function LoginPage() {
                 type="text"
                 className="w-full border-b-2 bg-inherit pl-1 text-white font-light focus:outline-none focus:ring-0"
                 id="mobileNo"
-                placeholder="Email or Username"
+                placeholder="Phone No"
                 {...register("mobileNo", {
                   required: true,
                 })}
@@ -113,10 +113,10 @@ function LoginPage() {
               <h1 className="text-center pt-3 text-red-500">{errorMessage}</h1>
             )}
 
-            <div className="w-full flex justify-center mt-6">
+            <div className="w-full flex justify-center mt-16">
               <button
                 type="submit"
-                className="rounded-lg px-14 py-3 bg-colorLevel3 text-colorLevel1"
+                className="rounded-lg px-14 py-3 bg-colorLevel1 text-colorLevel3"
               >
                 {
                   !loading ?"Login" :(<CircularProgress color="primary" aria-label="Loading..."/>)
@@ -126,7 +126,7 @@ function LoginPage() {
             <p className="text-white font-myFont text-md mt-16">
               Don't have an account!{" "}
               <span
-                className="text-colorLevel3 cursor-pointer"
+                className="font-bold cursor-pointer text-colorLevel1"
                 onClick={() => navigate("/register")}
               >
                 Create one

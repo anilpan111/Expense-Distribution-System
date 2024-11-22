@@ -3,7 +3,7 @@ import CreateGroup from "./CreateGroup";
 import conversationAPIs from "../APIcalls/conversations";
 import { MdGroups2 } from "react-icons/md";
 import { IoPerson } from "react-icons/io5";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loadChats } from "../store/Slices/eventSlice";
 import ContactsSkeleton from "./ContactsSkeleton";
 
@@ -11,6 +11,7 @@ function Contacts() {
   const [conversationHistory, setConversationHistory] = useState([]);
   const [loadContacts,setLoadContacts]=useState(false);
   const dispatch = useDispatch();
+  const loggedUser = useSelector((state)=>state.auth.userData);
 
   useEffect(() => {
     (async () => {
@@ -21,6 +22,7 @@ function Contacts() {
         if (allContacts) {
           setConversationHistory(allContacts.data);
           setLoadContacts(false)
+          // console.log("Contacts:",allContacts)
         }
       } catch (error) {
         console.log("ERR:", error); 
@@ -53,6 +55,11 @@ function Contacts() {
               minute: "2-digit",
               hour12: true,
             });
+            //extracting name and avatar of friend's contact
+            // let otherMember;
+            // if(!conversation.isGroup){
+            //   otherMember=conversation.members.find((member)=>member._id !== loggedUser._id)
+            // }
 
 
             return conversation.isGroup ? (
@@ -71,7 +78,7 @@ function Contacts() {
                 <div className="flex justify-between px-4 mx-1  w-full border-b-2 border-colorLevel2">
                   <div className="mt-1">
                     <h1 className="font-myFont font-bold text-xl">
-                      {conversation.chatName}
+                    {conversation.chatName}
                     </h1>
                     <p className="font-myFont truncate">{conversation?.description}</p>
                     <p className="font-myFont text-[12px]">

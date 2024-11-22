@@ -9,6 +9,7 @@ import {
   useDisclosure,
   Avatar,
   Badge,
+  CircularProgress
 } from "@nextui-org/react";
 import { HiUserGroup } from "react-icons/hi";
 import { FaFaceSadTear } from "react-icons/fa6";
@@ -25,6 +26,7 @@ function CreateGroup() {
   const [groupMembers, setGroupMembers] = useState([]);
   const [name, setName] = useState("");
   const { register, handleSubmit } = useForm();
+  const [loading,setLoading]=useState(false);
 
   const userAPIInstance = new UserAPIs();
 
@@ -71,18 +73,22 @@ function CreateGroup() {
 
   const createGroup = async (chatData) => {
     try {
+      setLoading(true);
       const groupMembersIds = groupMembers.map((member)=>member._id);
       const response =await groupChatAPIs.createGroup({...chatData,groupMembersIds})
       if(response){
         console.log("Created group:",response)
       }
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       console.log("ERR:",error)
     }
   };
 
   return (
     <>
+      {loading && <CircularProgress label="Creating group..." size="lg"  className="absolute z-10 left-[50%] top-[50%] " />}
       <div className="flex flex-wrap gap-3">
         <Button
           key="opaque"
@@ -128,10 +134,22 @@ function CreateGroup() {
                         name="photo"
                         accept="image/*"
                         required
-                        onChange={handleImageChange}
+                        // onChange={handleImageChange}
                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
 
-                          {...register("chatIcon", { required: true })}
+                        // {...register("chatIcon", { required: true })}
+
+                        {...register("chatIcon", {
+                          required: true,
+                          onChange: (e) => { 
+                            // Custom onChange logic
+                            const file = e.target.files[0];
+                            if (file) {
+                              const imageUrl = URL.createObjectURL(file);
+                              setSelectedImage(imageUrl);  // Preview or other custom logic
+                            }
+                          }
+                        })}
                       />
                     </label>
                   </div>
@@ -241,7 +259,11 @@ function CreateGroup() {
                   </div>
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="danger" variant="light" onPress={onClose}>
+                  <Button color="danger" variant="light" onPress={onClose}
+                  onClick={()=>{
+                    setSelectedImage(null)
+                  }}
+                  >
                     Cancel
                   </Button>
                   <Button color="primary" onPress={onClose} type="submit"> 

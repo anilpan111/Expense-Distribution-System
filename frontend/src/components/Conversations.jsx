@@ -231,7 +231,7 @@ function Conversations() {
     }
   }, [chatData, loggedUser._id]);
 
-  
+  // console.log("all chats",allChats)
 
 
   return (
@@ -290,14 +290,16 @@ function Conversations() {
           {allChats &&
             allChats?.map((chat) => {
               return chat.messageType === "simpleMessage" ? (
-                <li
+                
+                <li                  
                   className={`flex  pb-4 ${
-                    chat?.sender === loggedUser._id
+                    chat?.sender._id === loggedUser._id
                       ? "justify-end"
                       : "justify-start"
                   }`}
                   key={chat._id}
                 >
+                  {chat?.sender._id !== loggedUser._id && <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />}
                   <div
                     className={`flex flex-col border-1 px-1.5 pt-0.5 rounded-xl  font-myFont  text-medium bg-colorLevel1 ${
                       chat?.sender === loggedUser._id
@@ -313,17 +315,17 @@ function Conversations() {
                 </li>
               ) : (
                 <li className={`flex  pb-4 ${
-                  chat?.sender === loggedUser._id ? "justify-end" : "justify-start"
+                  chat?.sender._id === loggedUser._id ? "justify-end" : "justify-start"
                 }`}
                 key={chat._id}
                 >
                   <div className={`flex flex-col border-2  pt-0.5 rounded-xl  font-myFont  bg-colorLevel2 
                     ${
-                      chat.sender === loggedUser._id ? "rounded-tr-none" : "rounded-tl-none"
+                      chat.sender._id === loggedUser._id ? "rounded-tr-none" : "rounded-tl-none"
                     }`}>
                     <div className={`flex bg-colorLevel1  h-[40%] py-2 gap-3 font-bold px-2 border-b-2
                       ${
-                        chat.sender === loggedUser._id ? "rounded-tl-xl" : "rounded-tr-xl"
+                        chat.sender._id === loggedUser._id ? "rounded-tl-xl" : "rounded-tr-xl"
                       }
                       `}>
                       <FaIndianRupeeSign size={30} />

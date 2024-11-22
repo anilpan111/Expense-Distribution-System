@@ -15,7 +15,6 @@ const getAllConversations = asyncHandler(async (req, res) => {
   const conversations = await Conversation.find({
     members: currentUser._id,
   })
-    
     .select("-simpleMessages -expenseMessages")
     .sort({ updatedAt: -1 });
 
@@ -33,7 +32,6 @@ const getAllConversations = asyncHandler(async (req, res) => {
 const getAllChats = asyncHandler(async (req, res) => {
   const { members, chatName } = req.body;
 
-  
   if (!members || !chatName) {
     throw new ApiErrors(400, "User not fetched");
   }
@@ -50,17 +48,25 @@ const getAllChats = asyncHandler(async (req, res) => {
   // Add the logged-in user to the membersIds
   membersIds.push(loggedMember._id);
 
-
- 
-
   let conversation = await Conversation.findOne({
     chatName,
     members: { $all: membersIds },
   })
-    .populate("simpleMessages")
+    .populate({
+      path: "simpleMessages",
+      populate: {
+        path: "sender",
+        model: "User",
+        select: "-password -coverImage -email -refreshToken",
+      },
+    })
     .populate({
       path: "expenseMessages",
-      populate: { path: "sender", model: "User" ,select: "-password -coverImage -email -refreshToken",}, // Populate the sender within each expense message
+      populate: {
+        path: "sender",
+        model: "User",
+        select: "-password -coverImage -email -refreshToken",
+      }, // Populate the sender within each expense message
     });
 
   if (conversation) {
@@ -107,14 +113,13 @@ const getAllChats = asyncHandler(async (req, res) => {
 const getAllMembers = asyncHandler(async (req, res) => {
   const { members } = req.body;
 
-
   // Convert each member string to a MongoDB ObjectId
   const membersObjects = members.map(
     (member) => new mongoose.Types.ObjectId(member)
   );
 
   try {
-    // Fetch details of all members 
+    // Fetch details of all members
     const allMembersDetails = await Promise.all(
       membersObjects.map((member) => {
         return User.findOne({ _id: member }).select(

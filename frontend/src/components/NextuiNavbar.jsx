@@ -50,7 +50,7 @@ function NextuiNavbar() {
       
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link  onClick={()=>navigate("/signUp")} className="cursor-pointer">Sign up</Link>
+          <Link  onClick={()=>navigate("/signUp")} className="cursor-pointer text-colorLevel3 font-bold">Sign up</Link>
         </NavbarItem>
         <NavbarItem>
           <Button as={Link} color="primary"  onClick={()=>navigate("/login")} variant="flat">
@@ -62,7 +62,7 @@ function NextuiNavbar() {
           <NavbarMenuItem >
             <Link
               color="foreground"
-              className="w-full"
+              className="w-full "
               onClick={()=>navigate("/expenseDistribution")}
               size="lg"
             >
