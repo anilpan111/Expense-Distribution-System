@@ -242,7 +242,7 @@ function Conversations() {
 
             if(!socketRef.current){
 
-              socketRef.current = io("http://localhost:8000",{
+              socketRef.current = io("https://fairshare-rw0c.onrender.com",{
                 withCredentials: true
               })
               
