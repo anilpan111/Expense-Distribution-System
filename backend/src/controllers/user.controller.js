@@ -149,21 +149,21 @@ const loginUser = asyncHandler( async (req,res)=>{
     //options for the deployment
 
 
-    // const options = {
-    //     httpOnly :true,
-    //     secure: true,
-    //     path:'/',
-    //     sameSite:'none'
-    // }
+    const options = {
+        httpOnly :true,
+        secure: true,
+        path:'/',
+        sameSite:'none'
+    }
 
     //options for the developement
 
-    const options = {
-        httpOnly : true,
-        secure : false,
-        path : '/',
-        sameSite : 'lax'
-    }
+    // const options = {
+    //     httpOnly : true,
+    //     secure : false,
+    //     path : '/',
+    //     sameSite : 'lax'
+    // }
 
     return res
     .status(200)
