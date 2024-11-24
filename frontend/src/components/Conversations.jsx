@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoSend } from "react-icons/io5";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaIndianRupeeSign } from "react-icons/fa6";
@@ -27,7 +27,12 @@ import conversationAPIs from "../APIcalls/conversations";
 import groupChatAPIs from "../APIcalls/groupChatAPIs";
 import { useNavigate } from "react-router-dom";
 
+import {io} from "socket.io-client"
+
+
 function Conversations() {
+
+  const socketRef =useRef(null);
   const [simpleMessage, setSimpleMessage] = useState("");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [amount, setAmount] = useState("");
@@ -62,6 +67,7 @@ function Conversations() {
   );
   const chatData = useSelector((state) => state.event.userEvents);
   const loggedUser = useSelector((state) => state.auth.userData);
+
 
   const navigate = useNavigate();
 
@@ -98,8 +104,11 @@ function Conversations() {
       if (chatData.dataType === "navbar") {
         const response = await singleChatAPIs.sendSimpleChat(chatDetails);
           if (response) {
-            // console.log("Response for single chat:", response);
+            console.log("Response for single chat:", response);
+
             setSimpleMessage("");
+
+            
           }
       } else {
         if (chatData.members.length > 2) {
@@ -108,6 +117,11 @@ function Conversations() {
           if (response) {
             console.log("Response from simple group chat:", response);
             setSimpleMessage("");
+
+            //sending new messasge to the server
+            socketRef.current.emit("new message",response.data);
+            // console.log("message emmited")
+
           }
         } else {
           const response = await singleChatAPIs.sendSimpleChat(chatDetails);
@@ -162,9 +176,12 @@ function Conversations() {
           setSelectedDate(null);
       }else{
         if (chatData.members.length > 2) {
-          const respone = await groupChatAPIs.sendExpenseMessage(chatDetails);
-          if (respone) {
-            console.log("Response from gc expene message:", respone);
+          const response = await groupChatAPIs.sendExpenseMessage(chatDetails);
+          if (response) {
+            console.log("Response from gc expense message:", response);
+
+            //sending new message to server
+            socketRef.current.emit("new message",response.data);
           }
           setAmount("");
           setDescription("");
@@ -219,7 +236,36 @@ function Conversations() {
           });
 
           if (response) {
-            setAllChats(response.data);
+            // setAllChats(response.data);
+
+            //integrating web socket io
+
+            if(!socketRef.current){
+
+              socketRef.current = io("http://localhost:8000",{
+                withCredentials: true
+              })
+              
+              socketRef.current.on("connect",()=>{
+                console.log("user connected:",socketRef.current.id)
+  
+                //join group
+                socketRef.current.emit("join group",chatData._id)
+  
+                //send previous chats to the server
+                socketRef.current.emit("previous chats",response.data)
+  
+                socketRef.current.on("display chats",(chats)=>{
+                  setAllChats(chats);
+  
+                })
+              })
+
+            }
+
+            
+        
+            
           }
         } catch (error) {
           console.log("ERR:", error);
@@ -229,9 +275,22 @@ function Conversations() {
       // Execute the function when chatData is true
       loadAllChats();
     }
+
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+        socketRef.current = null; // Reset the ref to null
+      }
+    };
+
+    
   }, [chatData, loggedUser._id]);
 
   // console.log("all chats",allChats)
+
+  // useEffect( ()=>{
+    
+  // },[])
 
 
   return (

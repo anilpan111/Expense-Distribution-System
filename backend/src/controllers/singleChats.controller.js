@@ -66,8 +66,7 @@ const sendSimpleMessage = asyncHandler(async (req,res)=>{
             )
         }
     
-    
-    
+// simpleMessage = await SimpleMessage.findById(simpleMessage._id).populate("sender", "name email avatar");    
     
         return res.status(200).json(
             new ApiResponse(200,{simpleMessage,conversation},"New simple message added to the conversation")

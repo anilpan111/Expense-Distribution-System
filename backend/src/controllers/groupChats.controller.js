@@ -8,6 +8,8 @@ import { Conversation } from "../models/conversation.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import mongoose from "mongoose";
 
+let newSimpleMessage;
+
 
 const createGroup = asyncHandler(async(req,res)=>{
     const {groupName,description,members} = req.body
@@ -82,14 +84,26 @@ const sendSimpleMessage = asyncHandler( async(req,res)=>{
     receiversIds.push(sender._id);
 
 
-    const simpleMessage = await SimpleMessage.create(
-        {
-            message,
-            members: receiversIds,
-            chatName,
-            sender: sender._id
-        }
-    ) 
+    const simpleMessage = await SimpleMessage.create({
+        message,
+        members: receiversIds,
+        chatName,
+        sender: sender._id,
+      });
+      
+      // Populate the sender field
+      await simpleMessage.populate({
+        path: "sender",
+        model: "User",
+        select: "-password -coverImage -email -refreshToken",
+      });
+    // const newSimpleMessage = await SimpleMessage.findById(messageId).populate(
+    //     "sender",
+    //     "fullName email avatar mobileNo"
+    //   );
+
+
+
 
     let conversation = await Conversation.findOne(
         {
@@ -114,9 +128,13 @@ const sendSimpleMessage = asyncHandler( async(req,res)=>{
         )
 
     }
+    simpleMessage.messageType = "simpleMessage";
 
     return res.status(200).json(
-        new ApiResponse(200,conversation,"New simpleMessage added to the conversation document")
+        new ApiResponse(
+            200,
+            { ...simpleMessage.toObject(), messageType: "simpleMessage" },
+            "New simpleMessage added to the conversation document")
     )
 
 })
@@ -182,7 +200,9 @@ const sendExpenseMessage = asyncHandler(async(req,res)=>{
     }
 
     return res.status(200).json(
-        new ApiResponse(200,conversation,"New expense message added")
+        new ApiResponse(200,
+            { ...expenseMessage.toObject(), messageType: "expenseMessage" },
+            "New expense message added")
     )
 
 

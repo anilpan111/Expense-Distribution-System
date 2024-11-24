@@ -13,21 +13,12 @@ import {
 import { AcmeLogo } from "./AcmeLogo.jsx";
 import { useNavigate } from "react-router-dom";
 
-import {io} from "socket.io-client"
 
 function NextuiNavbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    const socket = io("http://localhost:8000",{
-      withCredentials: true
-    })
-
-    socket.on("connect",()=>{
-      console.log("user connected:",socket.id)
-    })
-  },[])
+  
 
   
 

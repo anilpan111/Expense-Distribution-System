@@ -7,6 +7,9 @@ dotenv.config()
 
 // const PORT=process.env.PORT || 8000
 
+let prevChats;
+let roomName;
+
 connectDb().then( ()=>{
 
     const server = createServer(app);
@@ -20,6 +23,33 @@ connectDb().then( ()=>{
 
     io.on("connection",(socket)=>{
         console.log("User connected with id:",socket.id)
+
+        //joining a specific room
+        socket.on("join group",(groupName)=>{
+            socket.join(groupName);
+            roomName = groupName;
+            // console.log(`${socket.id} joined the group : ${groupName}`)
+        })
+
+        //fetching previous chats
+        socket.on("previous chats",(chats)=>{
+            // console.log("Previous chats:",chats)
+            prevChats = chats;
+            io.to(roomName).emit("display chats",prevChats);
+            // console.log("Previous chats:",prevChats)
+
+        })
+
+        socket.on("new message",(message)=>{
+            prevChats.push(message);
+            io.to(roomName).emit("display chats",prevChats);
+            // console.log("all messages after adding new:",prevChats)
+        })
+
+        socket.on("disconnect", () => {
+            prevChats = null;
+            console.log("User disconnected:", socket.id);
+          });
     })
 
 
