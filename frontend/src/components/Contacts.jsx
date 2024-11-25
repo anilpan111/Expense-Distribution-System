@@ -6,12 +6,14 @@ import { IoPerson } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { loadChats } from "../store/Slices/eventSlice";
 import ContactsSkeleton from "./ContactsSkeleton";
+import { viewStatus } from "../store/Slices/viewSlice";
 
 function Contacts() {
   const [conversationHistory, setConversationHistory] = useState([]);
   const [loadContacts,setLoadContacts]=useState(false);
   const dispatch = useDispatch();
   const loggedUser = useSelector((state)=>state.auth.userData);
+  const mobileView = useSelector((state)=>state.view.status);
 
   useEffect(() => {
     (async () => {
@@ -32,7 +34,7 @@ function Contacts() {
   }, []);
 
   return (
-    <div className="h-full overflow-y-auto w-full md:w-[35%] bg-colorLevel1 flex flex-col overflow-x-hidden">
+    <div className={!mobileView ? "h-full overflow-y-auto w-full bg-colorLevel flex flex-col overflow-x-hidden" : "h-full overflow-y-auto md:w-[35%] bg-colorLevel md:flex flex-col hidden overflow-x-hidden"}>
       <div className="flex items-center   bg-colorLevel1 w-full justify-around  pl-4 pr-4  top-0 z-10 h-18 border-b-2">
         <h1 className="items-center flex font-myFont text-2xl font-bold py-5 text-colorLevel3">
           Chats
@@ -66,8 +68,11 @@ function Contacts() {
               <li
                 className="flex mt-3 cursor-pointer  hover:bg-colorLevel2 rounded-md w-full "
                 key={conversation._id}
-                onClick={() =>
+                onClick={() =>{
                   dispatch(loadChats({ ...conversation, dataType: "contact" }))
+                  dispatch(viewStatus())
+                }
+                  
                 }
               >
                 <img
@@ -98,7 +103,11 @@ function Contacts() {
                 className="flex mt-3 cursor-pointer  hover:bg-colorLevel2 rounded-md w-full "
                 key={conversation._id}
                 onClick={() =>
+                {
                   dispatch(loadChats({ ...conversation, dataType: "contact" }))
+                  dispatch(viewStatus())   
+                }
+
                 }
               >
                 <img

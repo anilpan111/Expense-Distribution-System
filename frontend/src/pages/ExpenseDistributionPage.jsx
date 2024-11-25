@@ -98,18 +98,18 @@ function ExpenseDistributionPage() {
 
   return (
     <div className="bg-colorLevel1 h-screen w-full flex flex-col md:flex-row">
-      <div className="w-full md:w-[35%] h-full flex flex-col overflow-y-hidden ">
-        <div className="flex flex-col mx-auto mt-6 md:px-8 px-4">
+      <div className="w-full md:w-[35%] h-full flex flex-col md:overflow-y-hidden ">
+        <div className="md:flex md:flex-col mx-auto md:mt-6 md:px-8 px-4 md:relative fixed bg-colorLevel1 w-full md:w-auto pt-4 pb-3 border-b-2 md:border-none z-20 ">
           <Avatar
             src={chatDetails.chatIcon}
-            className="md:w-44 md:h-44 w-36 h-36 text-large flex "
+            className="md:w-44 md:h-44 w-36 h-36 text-large flex mx-auto "
           />
-          <h1 className="mx-auto font-myFont text-2xl mt-2 font-bold">
+          <h1 className="mx-auto font-myFont text-2xl mt-2 font-bold text-center">
             {chatDetails.chatName}
           </h1>
         </div>
 
-        <div className="mt-4 border-b-2 pb-4">
+        <div className="md:mt-4 mt-60 border-b-2 pb-4">
           <h1 className="font-myFont font-bold text-lg pl-4 border-b-1">
             Members
           </h1>
@@ -154,7 +154,7 @@ function ExpenseDistributionPage() {
         </div>
       </div>
 
-      <div className="w-full md:w-[65%] h-full bg-colorLevel2 pb-8 overflow-y-auto">
+      <div className="w-full md:w-[65%] md:h-full h-auto bg-colorLevel2 pb-8 md:overflow-y-auto">
         <h1 className="font-myFont text-3xl font-bold text-center mt-4 border-b-1">
           Distribution of Expense
         </h1>

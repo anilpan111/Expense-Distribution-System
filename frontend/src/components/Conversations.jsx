@@ -26,8 +26,10 @@ import {
 import conversationAPIs from "../APIcalls/conversations";
 import groupChatAPIs from "../APIcalls/groupChatAPIs";
 import { useNavigate } from "react-router-dom";
+import { IoMdArrowBack } from "react-icons/io";
 
 import {io} from "socket.io-client"
+import { resetStatus } from "../store/Slices/viewSlice";
 
 
 function Conversations() {
@@ -67,6 +69,7 @@ function Conversations() {
   );
   const chatData = useSelector((state) => state.event.userEvents);
   const loggedUser = useSelector((state) => state.auth.userData);
+  const mobileView = useSelector((state)=>state.view.status);
 
 
   const navigate = useNavigate();
@@ -242,7 +245,13 @@ function Conversations() {
 
             if(!socketRef.current){
 
-              socketRef.current = io("https://fairshare-rw0c.onrender.com",{
+              //for deployment
+              // socketRef.current = io("https://fairshare-rw0c.onrender.com",{
+              //   withCredentials: true
+              // })
+
+              //for development
+              socketRef.current = io("http://localhost:8000",{
                 withCredentials: true
               })
               
@@ -294,10 +303,13 @@ function Conversations() {
 
 
   return (
-    <div className="h-full md:flex md:w-[65%] hidden w-full bg-colorLevel3  flex-col overflow-y-hidden">
+    <div className={mobileView ? "h-full md:flex w-full   bg-colorLevel3  flex-col overflow-y-hidden" : "h-full md:flex w-[65%] hidden  bg-colorLevel3  flex-col overflow-y-hidden"}>
       {/* remove padding */}
-      <div className="flex w-full h-[10%] bg-colorLevel2 justify-between items-center px-6 gap-6 md:gap-0">
+      <div className="flex w-full h-[10%] bg-colorLevel2 justify-between items-center md:px-6 px-1.5 gap-3 md:gap-0">
         <div className="flex">
+          <IoMdArrowBack size={30} className="my-auto pr-1.5 flex md:hidden cursor-pointer"
+          onClick={()=>dispatch(resetStatus())}
+          />
           <Avatar
             isBordered
             src={chatData?.avatar || chatData?.chatIcon}
@@ -320,8 +332,8 @@ function Conversations() {
           </Button>
           <Dropdown className="bg-colorLevel1">
             <DropdownTrigger className="bg-colorLevel1">
-              <Button  className="bg-colorLevel2 my-auto">
-                <BsThreeDotsVertical size={30} />
+              <Button size="sm" className="bg-colorLevel2 my-auto ">
+                <BsThreeDotsVertical size={30} className="" />
               </Button>
             </DropdownTrigger>
             <DropdownMenu
@@ -344,7 +356,7 @@ function Conversations() {
           </Dropdown>
         </div>
       </div>
-      <div className="bg-colorLevel4 w-full h-[80%] overflow-y-auto">
+      <div className="bg-colorLevel4 w-full md:h-[80%] h-[75%] overflow-y-auto">
         <ul className="flex flex-col px-8 py-4 ">
           {allChats &&
             allChats?.map((chat) => {
@@ -358,10 +370,10 @@ function Conversations() {
                   }`}
                   key={chat._id}
                 >
-                  {chat?.sender._id !== loggedUser._id && <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />}
+                  {chat?.sender._id !== loggedUser._id &&  <Avatar isBordered radius="lg" src={chat?.sender.avatar} className="mt-1"/>}
                   <div
-                    className={`flex flex-col border-1 px-1.5 pt-0.5 rounded-xl  font-myFont  text-medium bg-colorLevel1 ${
-                      chat?.sender === loggedUser._id
+                    className={`flex flex-col border-1 px-1.5 pt-0.5 rounded-xl  font-myFont  text-medium bg-colorLevel1 ml-1.5 max-w-[60%] ${
+                      chat?.sender._id === loggedUser._id
                         ? "rounded-tr-none"
                         : "rounded-tl-none"
                     }`}
@@ -378,7 +390,8 @@ function Conversations() {
                 }`}
                 key={chat._id}
                 >
-                  <div className={`flex flex-col border-2  pt-0.5 rounded-xl  font-myFont  bg-colorLevel2 
+                  {chat?.sender._id !== loggedUser._id &&  <Avatar isBordered radius="lg" src={chat?.sender.avatar} className="mt-1.5" />}
+                  <div className={`flex flex-col border-2  pt-0.5 rounded-xl  font-myFont  bg-colorLevel2 ml-1.5 
                     ${
                       chat.sender._id === loggedUser._id ? "rounded-tr-none" : "rounded-tl-none"
                     }`}>
@@ -406,7 +419,7 @@ function Conversations() {
             })}
         </ul>
       </div>
-      <div className="bg-colorLevel2 w-full h-[10%] flex items-center md:px-4 px-2 gap-4 md:gap-0 mb-16">
+      <div className="bg-colorLevel2 w-full h-[10%] flex items-center md:px-4 px-2 gap-4 md:gap-0 md:mb-16 ">
         <div className="flex gap-2 border-2 items-center rounded-md border-white  bg-colorLevel2 w-[65%]">
           <input
             type="text"
