@@ -246,14 +246,14 @@ function Conversations() {
             if(!socketRef.current){
 
               //for deployment
-              // socketRef.current = io("https://fairshare-rw0c.onrender.com",{
-              //   withCredentials: true
-              // })
-
-              //for development
-              socketRef.current = io("http://localhost:8000",{
+              socketRef.current = io("https://fairshare-rw0c.onrender.com",{
                 withCredentials: true
               })
+
+              //for development
+              // socketRef.current = io("http://localhost:8000",{
+              //   withCredentials: true
+              // })
               
               socketRef.current.on("connect",()=>{
                 console.log("user connected:",socketRef.current.id)
