@@ -29,6 +29,8 @@ import ExpenseDistributionPage from "./pages/ExpenseDistributionPage.jsx";
 
 import { Provider } from "react-redux";
 import ChatsPage from "./pages/ChatsPage.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,6 +44,8 @@ const router = createBrowserRouter(
       <Route path="profile" element={<ProfilePage />} />
       <Route path="conversation" element={<Conversations />} />
       <Route path="expenseDistribution" element={<ExpenseDistributionPage />} />
+      <Route path="forgotPassword" element={<ForgotPassword />} />
+      <Route path="resetPassword" element={<ResetPassword />} />
     </Route>
   )
 );

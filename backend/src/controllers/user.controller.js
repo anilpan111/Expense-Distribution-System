@@ -4,7 +4,7 @@ import {ApiResponse} from "../utils/ApiResponse.js"
 import jwt from 'jsonwebtoken';
 import {uploadOnCloudinary } from "../utils/cloudinary.js"
 import {User} from '../models/user.model.js'
-
+import nodemailer from 'nodemailer';
 
 const generateTokens = async (userId)=>{
     try {
@@ -215,6 +215,81 @@ const suggestUsers = asyncHandler(async(req,res)=>{
 
 })
 
+const sendOTP = asyncHandler(async(req,res)=>{
+    const {email} = req.body;
+    if(!email){
+        throw new ApiErrors(400,"Email id is required")
+    }
+
+    const user = await User.findOne({email});
+
+    if(!user){
+        throw new ApiErrors(404,"No user found with this email address");
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    // app password: qhcr wjnv wmfj wtsl
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'pananil54@gmail.com',       
+            pass: 'qhcr wjnv wmfj wtsl'           
+        }
+    });
+
+    try {
+        const info = await transporter.sendMail({
+            from: '"FairShare" <pananil54@gmail.com>', // sender address
+            to: email, // list of receivers
+            subject: "Reset Password", // Subject line
+            text: `Your One Time Password (OTP) is ${otp}`, // plain text body
+             html: `<p>Hello,</p><p>Your One Time Password (OTP) is: <b>${otp}</b></p><p>Use this to reset your password. It is valid for 10 minutes.</p>`
+          });
+        
+        //   console.log("Message sent: %s", info.messageId);
+    
+        if(!info){
+            throw new ApiErrors(400, "Something went wrong while generating otp")
+        }
+    
+        const response = {info,otp};
+    
+        return res
+        .status(200)
+        .json(
+            new ApiResponse(200, response, "OTP sent successfully")
+        )
+    } catch (error) {
+        throw new ApiErrors(400,"Something went wrong while sendig OTP")
+    }
+
+})
+
+
+const resetPassword = asyncHandler( async(req,res)=>{
+    const {email,newPassword}= req.body;
+
+    if(!email || !newPassword){
+        throw new ApiErrors(401,"Email and password required")
+    }
+
+    const user = await User.findOne({email});
+
+    if(!user){
+        throw new ApiErrors(404,"No user found with this email id")
+    }
+
+    user.password = newPassword;
+    await user.save({validateBeforeSave: false});
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200,"Your password changed successfully")
+    )
+})
+
+
 
 
 
@@ -223,5 +298,7 @@ export {
     loginUser,
     getCurrentUser,
     suggestUsers,
+    resetPassword,
+    sendOTP
 }
 

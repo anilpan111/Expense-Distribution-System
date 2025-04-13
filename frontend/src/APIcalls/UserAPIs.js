@@ -94,6 +94,26 @@ export class UserAPIs {
            throw error 
         }
     }
+
+    async sendOtp({email}){
+        try {
+            const response = await axios.post(`${baseURL}/api/v1/user/sendOtp`,{email});
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async resetPassword({email,newPassword}){
+        try {
+            const response = await axios.post(`${baseURL}/api/v1/user/resetPassword`,
+                {email,newPassword}
+            )
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 const userAPI = new UserAPIs();

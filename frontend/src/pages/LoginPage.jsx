@@ -113,6 +113,8 @@ function LoginPage() {
               <h1 className="text-center pt-3 text-red-500">{errorMessage}</h1>
             )}
 
+
+
             <div className="w-full flex justify-center mt-16">
               <button
                 type="submit"
@@ -123,7 +125,11 @@ function LoginPage() {
                 }
               </button>
             </div>
-            <p className="text-white font-myFont text-md mt-16">
+            <p className="mt-4 flex justify-center cursor-pointer hover:text-colorLevel1"
+            onClick = {()=>navigate("/forgotPassword")}
+            >Forgot password</p>
+
+            <p className="text-white font-myFont text-md mt-8">
               Don't have an account!{" "}
               <span
                 className="font-bold cursor-pointer text-colorLevel1"
