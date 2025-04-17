@@ -45,13 +45,8 @@ function LoginPage() {
 
   return (
     <>
-      <div className="w-full ">
-        <img
-          src="https://images.pexels.com/photos/531756/pexels-photo-531756.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          alt="Background"
-          className="object-cover fixed top-0 z-0 h-full w-full"
-        />
-        <div className="text-colorLevel3 bg-colorLevel2 bg-opacity-80 md:w-[30%] rounded-xl md:max-w-[45%] h-auto md:h-[70vh] mt-32 md:mx-auto mx-8 mb-10 py-4 px-8 shadow-2xl z-10 relative">
+      <div className="w-full bg-colorLevel1 h-screen pt-32 ">
+        <div className="text-colorLevel3 bg-colorLevel2 bg-opacity-80 md:w-[30%] rounded-xl md:max-w-[45%] h-auto md:h-[70vh]  md:mx-auto mx-8 mb-10 py-4 px-8 shadow-2xl z-10 relative">
 
 
           {success && (
@@ -133,7 +128,7 @@ function LoginPage() {
               Don't have an account!{" "}
               <span
                 className="font-bold cursor-pointer text-colorLevel1"
-                onClick={() => navigate("/register")}
+                onClick={() => navigate("/signUp")}
               >
                 Create one
               </span>
