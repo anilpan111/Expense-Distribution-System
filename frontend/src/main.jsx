@@ -23,6 +23,7 @@ import ContactPage from "./pages/ContactPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
+import SignupPage2 from "./pages/SignupPage2.jsx";
 import { NextUIProvider } from "@nextui-org/react";
 import Conversations from "./components/Conversations.jsx";
 import ExpenseDistributionPage from "./pages/ExpenseDistributionPage.jsx";
@@ -40,7 +41,7 @@ const router = createBrowserRouter(
       <Route path="about" element={<AboutPage />} />
       <Route path="contact" element={<ContactPage />} />
       <Route path="login" element={<LoginPage />} />
-      <Route path="signup" element={<SignupPage />} />
+      <Route path="signup" element={<SignupPage2 />} />
       <Route path="profile" element={<ProfilePage />} />
       <Route path="conversation" element={<Conversations />} />
       <Route path="expenseDistribution" element={<ExpenseDistributionPage />} />
